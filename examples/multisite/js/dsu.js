@@ -14,7 +14,7 @@ var Manager;
     });
     Manager.addWidget(new AjaxSolr.ResultWidget({
       id: 'result',
-      target: '#docs'
+      target: '#docs',
     }));
     Manager.addWidget(new AjaxSolr.PagerWidget({
       id: 'pager',
@@ -27,33 +27,37 @@ var Manager;
       }
     }));
 
-    var fields = ['site', 'ss_federated_terms' ];
-    for (var i = 0, l = fields.length; i < l; i++) {
-      Manager.addWidget(new AjaxSolr.MultiSelectWidget({ //MultiSelectWidget instead of Tagcloudwidget
-        id: fields[i],
-        target: '#' + fields[i],
-        field: fields[i],
-        max_show: 10,
-        max_facets: 20,
-        sort_type: 'count' //possible values: 'range', 'lex', 'count'
-      }));
-    }
-
+    // Search textfield
     Manager.addWidget(new AjaxSolr.CurrentSearchWidget({
       id: 'currentsearch',
       target: '#selection'
     }));
+
+    var searchable_fields = $('#query').attr('data-content').split(',');
     Manager.addWidget(new AjaxSolr.AutocompleteWidget({
       id: 'text',
       target: '#search',
-      fields: [ 'ss_federated_title' ]
+      fields: searchable_fields
     }));
 
+    /* Facets */
+    var facets_fields = $('#facets-fields').attr('data-content').split(',');
+    //var facets_fields = ['site', 'ss_federated_terms' ];
+    for (var i = 0, l = facets_fields.length; i < l; i++) {
+      Manager.addWidget(new AjaxSolr.MultiSelectWidget({ //MultiSelectWidget instead of Tagcloudwidget
+        id: facets_fields[i],
+        target: '#' + facets_fields[i],
+        field: facets_fields[i],
+        max_show: 10,
+        max_facets: 20,
+        sort_type: 'range' //possible values: 'range', 'lex', 'count'
+      }));
+    }
     Manager.init();
     Manager.store.addByValue('q', '*:*');
     var params = {
       facet: true,
-      'facet.field': [ 'site', 'ss_federated_terms' ],
+      'facet.field': facets_fields,
       'facet.limit': 20,
       'facet.mincount': 1,
       'f.site.facet.limit': 50,

@@ -59,8 +59,8 @@ AjaxSolr.ResultWidget = AjaxSolr.AbstractWidget.extend({
     var snippet = '';
 
     var output = '<div><a href="'+doc.sm_urls+'" target="_blank"><h2>' + doc.ss_federated_title + '</h2></a>';
-
-    output += '<p>Date created: ' + doc.ds_federated_date + '<br />Site: ' + doc.site + '</p></div>';
+    //output += '<p>' + doc.content.substring(0, 350) + '...</p>';
+    output += '<p><strong>Date created:</strong> ' + doc.ds_federated_date + '<br /><strong>Site:</strong> ' + doc.site + '<br /><strong>Content type:</strong> '+doc.ss_federated_type +'</p></div><hr/>';
     return output;
   },
 

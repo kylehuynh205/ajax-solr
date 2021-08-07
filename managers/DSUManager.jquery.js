@@ -20,7 +20,6 @@
           options = {dataType: 'json'};
         string = string || this.store.string();
         handler = handler || function (data) {
-          console.log(data);
           self.handleResponse(data);
         };
         errorHandler = errorHandler || function (jqXHR, textStatus, errorThrown) {
